@@ -52,7 +52,7 @@ Your code is already pushed to GitHub! ✅
 2. Click "Add New Project" 
 3. Import your `school-study-ai` repository from GitHub
 4. Configure the project:
-   - **Framework Preset**: "Other" (since we're using Express.js)
+   - **Framework Preset**: Select "Express" (if available) or "Other"
    - **Root Directory**: Leave as default
    - **Build Command**: Leave empty
    - **Output Directory**: Leave empty
