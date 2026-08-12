@@ -45,19 +45,29 @@ An AI-powered study application that helps students create study materials and t
 ## Vercel Deployment
 
 ### Step 1: Push to GitHub
-Make sure your code is pushed to GitHub (already done!)
+Your code is already pushed to GitHub! ✅
 
 ### Step 2: Deploy to Vercel
-1. Go to [vercel.com](https://vercel.com) and sign up/login
-2. Click "Add New Project"
-3. Import your `school-study-ai` repository
-4. Add environment variable:
-   - Name: `GROQ_API_KEY`
-   - Value: Your Groq API key from [console.groq.com](https://console.groq.com)
-5. Click "Deploy"
+1. Go to [vercel.com](https://vercel.com) and sign up/login with your GitHub account
+2. Click "Add New Project" 
+3. Import your `school-study-ai` repository from GitHub
+4. Configure the project:
+   - **Framework Preset**: "Other" (since we're using Express.js)
+   - **Root Directory**: Leave as default
+   - **Build Command**: Leave empty
+   - **Output Directory**: Leave empty
+5. **Important**: Add environment variable:
+   - Click "Environment Variables"
+   - Add: `GROQ_API_KEY` = Your Groq API key from [console.groq.com](https://console.groq.com)
+6. Click "Deploy"
 
 ### Step 3: Access Your App
 Vercel will provide a URL like `https://school-study-ai.vercel.app`
+
+### Step 4: Test Your Deployment
+- Visit your Vercel URL
+- Try the Student Dashboard with some notes
+- Try the Teacher Dashboard with a topic search
 
 ## Environment Variables
 
