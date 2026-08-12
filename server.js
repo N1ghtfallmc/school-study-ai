@@ -28,13 +28,8 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Serve static files
-if (process.env.NODE_ENV !== 'production') {
-    app.use(express.static(path.join(__dirname)));
-} else {
-    // In production, Vercel handles static files differently
-    app.use(express.static(path.join(__dirname)));
-}
+// Serve static files (always, for both local and Vercel)
+app.use(express.static(path.join(__dirname)));
 
 // Check for required environment variables
 if (!process.env.GROQ_API_KEY) {
