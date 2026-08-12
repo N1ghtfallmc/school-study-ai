@@ -1,18 +1,34 @@
 const express = require('express');
 const cors = require('cors');
-const dotenv = require('dotenv');
 const path = require('path');
+const fs = require('fs');
 
-// Load environment variables
-dotenv.config();
+// Load environment variables from .env file (for local development)
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+    const envConfig = fs.readFileSync(envPath, 'utf8');
+    envConfig.split('\n').forEach(line => {
+        const [key, ...valueParts] = line.split('=');
+        if (key && valueParts.length > 0) {
+            process.env[key.trim()] = valueParts.join('=').trim();
+        }
+    });
+}
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname)));
+
+// Serve static files
+if (process.env.NODE_ENV !== 'production') {
+    app.use(express.static(path.join(__dirname)));
+} else {
+    // In production, Vercel handles static files differently
+    app.use(express.static(path.join(__dirname)));
+}
 
 // Check for required environment variables
 if (!process.env.GROQ_API_KEY) {
@@ -208,8 +224,13 @@ Requirements:
     }
 });
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`SchoolStudy AI server running on port ${PORT}`);
-    console.log(`Open http://localhost:${PORT} in your browser`);
-});
+// Start server (only for local development)
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`SchoolStudy AI server running on port ${PORT}`);
+        console.log(`Open http://localhost:${PORT} in your browser`);
+    });
+}
+
+// Export for Vercel serverless functions
+module.exports = app;
