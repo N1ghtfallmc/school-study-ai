@@ -4,22 +4,28 @@ const path = require('path');
 const fs = require('fs');
 
 // Load environment variables from .env file (for local development)
-const envPath = path.join(__dirname, '.env');
-if (fs.existsSync(envPath)) {
-    const envConfig = fs.readFileSync(envPath, 'utf8');
-    envConfig.split('\n').forEach(line => {
-        const [key, ...valueParts] = line.split('=');
-        if (key && valueParts.length > 0) {
-            process.env[key.trim()] = valueParts.join('=').trim();
-        }
-    });
+if (process.env.NODE_ENV !== 'production') {
+    const envPath = path.join(__dirname, '.env');
+    if (fs.existsSync(envPath)) {
+        const envConfig = fs.readFileSync(envPath, 'utf8');
+        envConfig.split('\n').forEach(line => {
+            const [key, ...valueParts] = line.split('=');
+            if (key && valueParts.length > 0) {
+                process.env[key.trim()] = valueParts.join('=').trim();
+            }
+        });
+    }
 }
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
 
 // Serve static files
