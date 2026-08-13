@@ -447,12 +447,12 @@
             color: #e0e0e0;
         }
 
-        .quiz-option:hover:not(.disabled) {
+        .quiz-option:hover:not(.disabled):not(.answered) {
             border-color: #333;
             background: #f0f0f0;
         }
 
-        body.dark-mode .quiz-option:hover:not(.disabled) {
+        body.dark-mode .quiz-option:hover:not(.disabled):not(.answered) {
             border-color: #4a90e2;
             background: #444;
         }
@@ -633,13 +633,7 @@
             margin-top: 5px;
         }
 
-        .char-counter.warning {
-            color: #ff9800;
-        }
 
-        .char-counter.error {
-            color: #dc3545;
-        }
 
         .range-container {
             display: flex;
@@ -801,8 +795,7 @@
                 <div class="input-section">
                     <div class="input-group">
                         <label for="notes-input">Type your notes here:</label>
-                        <textarea id="notes-input" maxlength="3000" placeholder="Paste your class notes, textbook excerpts, or study material here..." oninput="updateCharCount()"></textarea>
-                        <div class="char-counter" id="char-counter">0 / 3000 characters</div>
+                        <textarea id="notes-input" placeholder="Paste your class notes, textbook excerpts, or study material here..."></textarea>
                     </div>
 
                     <div class="input-group">
@@ -926,24 +919,6 @@
             // Show/hide dashboards
             document.querySelectorAll('.dashboard').forEach(dashboard => dashboard.classList.remove('active'));
             document.getElementById(`${mode}-dashboard`).classList.add('active');
-        }
-
-        // Character counter
-        function updateCharCount() {
-            const textarea = document.getElementById('notes-input');
-            const counter = document.getElementById('char-counter');
-            const currentLength = textarea.value.length;
-            const maxLength = 3000;
-            
-            counter.textContent = `${currentLength} / ${maxLength} characters`;
-            
-            // Update counter color based on usage
-            counter.classList.remove('warning', 'error');
-            if (currentLength >= maxLength * 0.9) {
-                counter.classList.add('error');
-            } else if (currentLength >= maxLength * 0.7) {
-                counter.classList.add('warning');
-            }
         }
 
         // Update summary count display
@@ -1082,7 +1057,7 @@
             // Display quiz
             const quizHTML = aiData.quiz.map((q, qIndex) => `
                 <div class="quiz-question">${qIndex + 1}. ${q.question}</div>
-                <div class="quiz-options">
+                <div class="quiz-options" id="quiz-options-${qIndex}">
                     ${q.options.map((opt, oIndex) => `
                         <button class="quiz-option" onclick="checkAnswer(this, ${qIndex}, ${oIndex}, ${q.correct})">${opt}</button>
                     `).join('')}
@@ -1131,17 +1106,31 @@
 
         // Check quiz answer
         function checkAnswer(button, questionIndex, selectedOption, correctOption) {
-            const options = button.parentElement.querySelectorAll('.quiz-option');
+            const optionsContainer = button.parentElement;
+            const options = optionsContainer.querySelectorAll('.quiz-option');
+            
+            // Only process if not already answered
+            if (optionsContainer.classList.contains('answered')) {
+                return;
+            }
+            
+            // Mark question as answered
+            optionsContainer.classList.add('answered');
             
             // Disable all options for this question
-            options.forEach(opt => opt.classList.add('disabled'));
+            options.forEach(opt => {
+                opt.classList.add('disabled');
+                opt.setAttribute('disabled', 'true');
+            });
             
             // Show correct/incorrect
             if (selectedOption === correctOption) {
                 button.classList.add('correct');
             } else {
                 button.classList.add('incorrect');
-                options[correctOption].classList.add('correct');
+                if (options[correctOption]) {
+                    options[correctOption].classList.add('correct');
+                }
             }
         }
 

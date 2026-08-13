@@ -40,10 +40,6 @@ app.post('/api/generate', async (req, res) => {
             return res.status(400).json({ error: 'Notes are required' });
         }
 
-        if (notes.length > 3000) {
-            return res.status(400).json({ error: 'Notes exceed maximum length of 3000 characters' });
-        }
-
         // Validate counts
         const validSummaryCount = Math.min(Math.max(parseInt(summaryCount) || 4, 3), 8);
         const validQuizCount = Math.min(Math.max(parseInt(quizCount) || 5, 5), 25);
