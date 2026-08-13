@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const app = express();
-const PORT = process.env.PORT || 3003;
+const PORT = process.env.PORT || 3004;
 
 // Middleware
 app.use(cors({
@@ -144,12 +144,16 @@ app.post('/api/search', async (req, res) => {
         const prompt = `You are an expert educational resource curator. Find 3 high-quality educational resources for the topic: "${topic}"
 
 Focus on these types of resources:
-1. Khan Academy (free video lessons and exercises)
-2. OpenStax (free open textbooks)
-3. CK-12 Foundation (free educational resources)
-4. MIT OpenCourseWare
-5. Crash Course (YouTube educational series)
-6. Other reputable educational platforms
+1. Khan Academy (khanacademy.org) - free video lessons and exercises
+2. OpenStax (openstax.org) - free open textbooks
+3. CK-12 Foundation (ck12.org) - free educational resources
+4. MIT OpenCourseWare (ocw.mit.edu) - free course materials
+5. Crash Course (youtube.com/crashcourse) - YouTube educational series
+6. edX (edx.org) - free online courses from universities
+7. Coursera (coursera.org) - free online courses
+8. TED-Ed (ed.ted.com) - educational videos
+9. National Geographic Education (nationalgeographic.org/education)
+10. Smithsonian Learning Lab (learninglab.si.edu)
 
 Return ONLY a valid JSON array with this exact structure:
 [

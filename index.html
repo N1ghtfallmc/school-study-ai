@@ -13,9 +13,15 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #f5f5f5;
             min-height: 100vh;
             color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: #1a1a1a;
+            color: #e0e0e0;
         }
 
         .container {
@@ -41,10 +47,14 @@
         .logo {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #4a90e2;
+            color: #333;
             display: flex;
             align-items: center;
             gap: 10px;
+        }
+
+        body.dark-mode .logo {
+            color: #e0e0e0;
         }
 
         .logo-icon {
@@ -59,14 +69,20 @@
 
         .nav-btn {
             padding: 12px 25px;
-            border: none;
+            border: 2px solid #ddd;
             border-radius: 25px;
             font-size: 1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #f0f0f0;
+            background: white;
             color: #333;
+        }
+
+        body.dark-mode .nav-btn {
+            background: #2a2a2a;
+            border-color: #444;
+            color: #e0e0e0;
         }
 
         .nav-btn:hover {
@@ -75,8 +91,14 @@
         }
 
         .nav-btn.active {
-            background: #4a90e2;
+            background: #333;
             color: white;
+            border-color: #333;
+        }
+
+        body.dark-mode .nav-btn.active {
+            background: #4a90e2;
+            border-color: #4a90e2;
         }
 
         /* Main Content */
@@ -85,6 +107,10 @@
             border-radius: 15px;
             padding: 30px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .main-content {
+            background: #2a2a2a;
         }
 
         .dashboard {
@@ -96,15 +122,23 @@
         }
 
         h1 {
-            color: #4a90e2;
+            color: #333;
             margin-bottom: 20px;
             font-size: 2rem;
         }
 
+        body.dark-mode h1 {
+            color: #e0e0e0;
+        }
+
         h2 {
-            color: #5a6c7d;
+            color: #555;
             margin-bottom: 15px;
             font-size: 1.5rem;
+        }
+
+        body.dark-mode h2 {
+            color: #ccc;
         }
 
         /* Student Dashboard */
@@ -115,6 +149,10 @@
             margin-bottom: 30px;
         }
 
+        body.dark-mode .input-section {
+            background: #333;
+        }
+
         .input-group {
             margin-bottom: 20px;
         }
@@ -123,7 +161,11 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #5a6c7d;
+            color: #555;
+        }
+
+        body.dark-mode label {
+            color: #ccc;
         }
 
         textarea {
@@ -140,11 +182,15 @@
 
         textarea:focus {
             outline: none;
+            border-color: #333;
+        }
+
+        body.dark-mode textarea:focus {
             border-color: #4a90e2;
         }
 
         .file-upload {
-            border: 2px dashed #4a90e2;
+            border: 2px dashed #999;
             border-radius: 10px;
             padding: 30px;
             text-align: center;
@@ -153,8 +199,17 @@
             background: white;
         }
 
+        body.dark-mode .file-upload {
+            background: #333;
+            border-color: #666;
+        }
+
         .file-upload:hover {
-            background: #f0f7ff;
+            background: #f0f0f0;
+        }
+
+        body.dark-mode .file-upload:hover {
+            background: #444;
         }
 
         .file-upload-icon {
@@ -163,7 +218,7 @@
         }
 
         .generate-btn {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            background: #333;
             color: white;
             padding: 15px 40px;
             border: none;
@@ -178,9 +233,13 @@
             margin: 20px auto 0;
         }
 
+        body.dark-mode .generate-btn {
+            background: #4a90e2;
+        }
+
         .generate-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
         .generate-btn:disabled {
@@ -206,6 +265,10 @@
             margin-bottom: 25px;
         }
 
+        body.dark-mode .content-section {
+            background: #333;
+        }
+
         .summary {
             line-height: 1.8;
         }
@@ -223,11 +286,15 @@
 
         .summary li:before {
             content: "•";
-            color: #4a90e2;
+            color: #333;
             font-size: 1.5rem;
             position: absolute;
             left: 0;
             top: 5px;
+        }
+
+        body.dark-mode .summary li:before {
+            color: #4a90e2;
         }
 
         /* Flashcards */
@@ -274,15 +341,25 @@
         }
 
         .flashcard-front {
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            background: #333;
             color: white;
+        }
+
+        body.dark-mode .flashcard-front {
+            background: #4a90e2;
         }
 
         .flashcard-back {
             background: white;
             color: #333;
             transform: rotateY(180deg);
-            border: 3px solid #4a90e2;
+            border: 3px solid #333;
+        }
+
+        body.dark-mode .flashcard-back {
+            background: #2a2a2a;
+            color: #e0e0e0;
+            border-color: #4a90e2;
         }
 
         .flashcard-controls {
@@ -299,11 +376,19 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: #4a90e2;
+            background: #333;
             color: white;
         }
 
+        body.dark-mode .flashcard-nav-btn {
+            background: #4a90e2;
+        }
+
         .flashcard-nav-btn:hover {
+            background: #555;
+        }
+
+        body.dark-mode .flashcard-nav-btn:hover {
             background: #357abd;
         }
 
@@ -314,7 +399,11 @@
 
         .card-counter {
             font-weight: 600;
-            color: #5a6c7d;
+            color: #555;
+        }
+
+        body.dark-mode .card-counter {
+            color: #ccc;
         }
 
         /* Quiz */
@@ -329,6 +418,10 @@
             font-weight: 600;
             margin-bottom: 15px;
             color: #333;
+        }
+
+        body.dark-mode .quiz-question {
+            color: #e0e0e0;
         }
 
         .quiz-options {
@@ -348,9 +441,20 @@
             text-align: left;
         }
 
+        body.dark-mode .quiz-option {
+            background: #333;
+            border-color: #555;
+            color: #e0e0e0;
+        }
+
         .quiz-option:hover:not(.disabled) {
+            border-color: #333;
+            background: #f0f0f0;
+        }
+
+        body.dark-mode .quiz-option:hover:not(.disabled) {
             border-color: #4a90e2;
-            background: #f0f7ff;
+            background: #444;
         }
 
         .quiz-option.correct {
@@ -378,6 +482,10 @@
             margin-bottom: 30px;
         }
 
+        body.dark-mode .search-section {
+            background: #333;
+        }
+
         .search-box {
             display: flex;
             gap: 10px;
@@ -396,12 +504,16 @@
 
         .search-input:focus {
             outline: none;
+            border-color: #333;
+        }
+
+        body.dark-mode .search-input:focus {
             border-color: #4a90e2;
         }
 
         .search-btn {
             padding: 15px 30px;
-            background: linear-gradient(135deg, #4a90e2 0%, #357abd 100%);
+            background: #333;
             color: white;
             border: none;
             border-radius: 25px;
@@ -411,9 +523,13 @@
             transition: all 0.3s ease;
         }
 
+        body.dark-mode .search-btn {
+            background: #4a90e2;
+        }
+
         .search-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
         }
 
         .search-results {
@@ -438,7 +554,12 @@
             padding: 25px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s ease;
-            border-left: 4px solid #4a90e2;
+            border-left: 4px solid #333;
+        }
+
+        body.dark-mode .source-card {
+            background: #333;
+            border-left-color: #4a90e2;
         }
 
         .source-card:hover {
@@ -452,12 +573,20 @@
             margin-bottom: 10px;
         }
 
+        body.dark-mode .source-title {
+            color: #e0e0e0;
+        }
+
         .source-link {
-            color: #4a90e2;
+            color: #333;
             text-decoration: none;
             font-weight: 600;
             display: inline-block;
             margin-bottom: 10px;
+        }
+
+        body.dark-mode .source-link {
+            color: #4a90e2;
         }
 
         .source-link:hover {
@@ -467,18 +596,27 @@
         .source-format {
             display: inline-block;
             padding: 5px 15px;
-            background: #e3f2fd;
-            color: #1976d2;
+            background: #e0e0e0;
+            color: #333;
             border-radius: 15px;
             font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 10px;
         }
 
+        body.dark-mode .source-format {
+            background: #444;
+            color: #e0e0e0;
+        }
+
         .source-explanation {
             color: #666;
             line-height: 1.6;
             font-size: 0.95rem;
+        }
+
+        body.dark-mode .source-explanation {
+            color: #ccc;
         }
 
         /* Loading State */
@@ -650,6 +788,7 @@
             <div class="nav-buttons">
                 <button class="nav-btn active" onclick="switchMode('student')">Student Dashboard</button>
                 <button class="nav-btn" onclick="switchMode('teacher')">Teacher Dashboard</button>
+                <button class="nav-btn" onclick="toggleTheme()" id="theme-btn">🌙</button>
             </div>
         </nav>
 
@@ -833,7 +972,22 @@
             updateSummaryCount();
             updateQuizCount();
             updateFlashcardCount();
+            
+            // Load theme preference
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.add('dark-mode');
+                document.getElementById('theme-btn').textContent = '☀️';
+            }
         });
+
+        // Toggle theme
+        function toggleTheme() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            document.getElementById('theme-btn').textContent = isDark ? '☀️' : '🌙';
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
 
         // File upload handling
         function handleFileUpload(event) {
@@ -1038,6 +1192,18 @@
                     link: `https://ocw.mit.edu/search/?q=${encodeURIComponent(topic)}`,
                     format: 'Course Materials',
                     explanation: `Free course materials from MIT including lecture notes, assignments, and exams for ${topic}.`
+                },
+                {
+                    title: `${topic} - TED-Ed`,
+                    link: `https://ed.ted.com/search?q=${encodeURIComponent(topic)}`,
+                    format: 'Video',
+                    explanation: `Educational videos from TED-Ed covering ${topic} with engaging animations and expert explanations.`
+                },
+                {
+                    title: `${topic} - Crash Course`,
+                    link: `https://www.youtube.com/crashcourse/search?query=${encodeURIComponent(topic)}`,
+                    format: 'Video Series',
+                    explanation: `Comprehensive video series from Crash Course covering ${topic} with expert hosts and high production value.`
                 }
             ];
             
