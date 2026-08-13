@@ -141,32 +141,31 @@ app.post('/api/search', async (req, res) => {
             return res.status(400).json({ error: 'Topic is required' });
         }
 
-        const prompt = `You are an expert educational resource curator. Find 3 high-quality educational resources for the topic: "${topic}"
+        const prompt = `You are an expert educational resource curator. Find 6 high-quality educational resources for the topic: "${topic}"
 
-Focus on these types of resources:
-1. Khan Academy (khanacademy.org) - free video lessons and exercises
-2. OpenStax (openstax.org) - free open textbooks
-3. CK-12 Foundation (ck12.org) - free educational resources
-4. MIT OpenCourseWare (ocw.mit.edu) - free course materials
-5. Crash Course (youtube.com/crashcourse) - YouTube educational series
-6. edX (edx.org) - free online courses from universities
-7. Coursera (coursera.org) - free online courses
-8. TED-Ed (ed.ted.com) - educational videos
-9. National Geographic Education (nationalgeographic.org/education)
-10. Smithsonian Learning Lab (learninglab.si.edu)
+Focus on these specific platforms and use their search URLs:
+1. Khan Academy: https://www.khanacademy.org/search?page_search_query=${encodeURIComponent(topic)}
+2. OpenStax: https://openstax.org/search?page=1&term=${encodeURIComponent(topic)}
+3. MIT OpenCourseWare: https://ocw.mit.edu/search/?q=${encodeURIComponent(topic)}
+4. TED-Ed: https://ed.ted.com/search?q=${encodeURIComponent(topic)}
+5. edX: https://www.edx.org/search?q=${encodeURIComponent(topic)}
+6. PBS Learning Media: https://pbslearningmedia.org/search/?q=${encodeURIComponent(topic)}
+7. PhET Simulations: https://phet.colorado.edu/en/search?q=${encodeURIComponent(topic)}
+8. Crash Course: https://www.youtube.com/crashcourse/search?query=${encodeURIComponent(topic)}
 
 Return ONLY a valid JSON array with this exact structure:
 [
   {
     "title": "Resource title",
-    "link": "Full URL to the resource",
+    "link": "Full URL to the resource (use search URLs)",
     "format": "Format type (e.g., 'Video Course', 'Textbook', 'Article', 'Interactive')",
     "explanation": "One sentence explaining why this resource is useful for learning about ${topic}"
   }
 ]
 
 Requirements:
-- All links must be real, working URLs to actual educational content
+- Use search URLs from the platforms listed above
+- All links must be real, working search URLs
 - Focus on free, reputable educational sources
 - Make the explanation specific to how it helps learn ${topic}
 - Return ONLY the JSON array, no additional text`;
@@ -190,7 +189,7 @@ Requirements:
                     }
                 ],
                 temperature: 0.7,
-                max_tokens: 1024
+                max_tokens: 2048
             })
         });
 
