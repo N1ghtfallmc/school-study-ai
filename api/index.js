@@ -223,7 +223,7 @@ module.exports = app;
 
 // Local development
 if (require.main === module) {
-    const PORT = process.env.PORT || 3001;
+    const PORT = process.env.PORT || 3002;
     app.listen(PORT, () => {
         console.log(`SchoolStudy AI server running on port ${PORT}`);
         console.log(`Open http://localhost:${PORT} in your browser`);
