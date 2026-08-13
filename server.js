@@ -3,11 +3,9 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-const app = express();
-
-// Load environment variables
+// Load environment variables from .env file (for local development)
 if (process.env.NODE_ENV !== 'production') {
-    const envPath = path.join(__dirname, '../.env');
+    const envPath = path.join(__dirname, '.env');
     if (fs.existsSync(envPath)) {
         const envConfig = fs.readFileSync(envPath, 'utf8');
         envConfig.split('\n').forEach(line => {
@@ -19,12 +17,19 @@ if (process.env.NODE_ENV !== 'production') {
     }
 }
 
+const app = express();
+const PORT = process.env.PORT || 3002;
+
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'OPTIONS'],
+    allowedHeaders: ['Content-Type']
+}));
 app.use(express.json());
 
-// Serve static files from parent directory
-app.use(express.static(path.join(__dirname, '..')));
+// Serve static files (always, for both local and Vercel)
+app.use(express.static(path.join(__dirname)));
 
 // API Route: Generate study materials
 app.post('/api/generate', async (req, res) => {
@@ -213,19 +218,18 @@ Requirements:
     }
 });
 
-// Serve index.html for all other routes
+// Serve index.html for all other routes (SPA-like behavior)
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Export for serverless-http
-module.exports = app;
-
-// Local development
+// Start server (only for local development)
 if (require.main === module) {
-    const PORT = process.env.PORT || 3002;
     app.listen(PORT, () => {
         console.log(`SchoolStudy AI server running on port ${PORT}`);
         console.log(`Open http://localhost:${PORT} in your browser`);
     });
 }
+
+// Export for Vercel
+module.exports = app;
