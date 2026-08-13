@@ -34,7 +34,7 @@ app.use(express.static(path.join(__dirname)));
 // API Route: Generate study materials
 app.post('/api/generate', async (req, res) => {
     try {
-        const { notes } = req.body;
+        const { notes, summaryCount = 4, quizCount = 5, flashcardCount = 10 } = req.body;
 
         if (!notes || typeof notes !== 'string') {
             return res.status(400).json({ error: 'Notes are required' });
@@ -44,6 +44,11 @@ app.post('/api/generate', async (req, res) => {
             return res.status(400).json({ error: 'Notes exceed maximum length of 3000 characters' });
         }
 
+        // Validate counts
+        const validSummaryCount = Math.min(Math.max(parseInt(summaryCount) || 4, 3), 8);
+        const validQuizCount = Math.min(Math.max(parseInt(quizCount) || 5, 5), 25);
+        const validFlashcardCount = Math.min(Math.max(parseInt(flashcardCount) || 10, 10), 30);
+
         const prompt = `You are an expert educational content creator. Analyze the following study notes and create educational materials in JSON format:
 
 STUDY NOTES:
@@ -51,13 +56,11 @@ ${notes}
 
 Return ONLY a valid JSON object with this exact structure:
 {
-  "summary": ["First key point", "Second key point", "Third key point", "Fourth key point"],
+  "summary": ["First key point", "Second key point", "Third key point"],
   "flashcards": [
     {"term": "First term", "definition": "Clear definition"},
     {"term": "Second term", "definition": "Clear definition"},
-    {"term": "Third term", "definition": "Clear definition"},
-    {"term": "Fourth term", "definition": "Clear definition"},
-    {"term": "Fifth term", "definition": "Clear definition"}
+    {"term": "Third term", "definition": "Clear definition"}
   ],
   "quiz": [
     {
@@ -69,19 +72,14 @@ Return ONLY a valid JSON object with this exact structure:
       "question": "Second question based on the notes?",
       "options": ["Option A", "Option B", "Option C", "Option D"],
       "correct": 1
-    },
-    {
-      "question": "Third question based on the notes?",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
-      "correct": 2
     }
   ]
 }
 
 Requirements:
-- Summary: Extract 4 key concepts as bullet points
-- Flashcards: Create 5 term-definition pairs from the content
-- Quiz: Create 3 multiple-choice questions with 4 options each
+- Summary: Extract exactly ${validSummaryCount} key concepts as bullet points
+- Flashcards: Create exactly ${validFlashcardCount} term-definition pairs from the content
+- Quiz: Create exactly ${validQuizCount} multiple-choice questions with 4 options each
 - Make all content directly derived from the provided notes
 - Return ONLY the JSON, no additional text`;
 
