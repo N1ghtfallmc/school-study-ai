@@ -3,9 +3,11 @@ const cors = require('cors');
 const path = require('path');
 const fs = require('fs');
 
-// Load environment variables from .env file (for local development)
+const app = express();
+
+// Load environment variables
 if (process.env.NODE_ENV !== 'production') {
-    const envPath = path.join(__dirname, '.env');
+    const envPath = path.join(__dirname, '../.env');
     if (fs.existsSync(envPath)) {
         const envConfig = fs.readFileSync(envPath, 'utf8');
         envConfig.split('\n').forEach(line => {
@@ -17,26 +19,12 @@ if (process.env.NODE_ENV !== 'production') {
     }
 }
 
-const app = express();
-const PORT = process.env.PORT || 3001;
-
 // Middleware
-app.use(cors({
-    origin: '*',
-    methods: ['GET', 'POST', 'OPTIONS'],
-    allowedHeaders: ['Content-Type']
-}));
+app.use(cors());
 app.use(express.json());
 
-// Serve static files (always, for both local and Vercel)
-app.use(express.static(path.join(__dirname)));
-
-// Check for required environment variables
-if (!process.env.GROQ_API_KEY) {
-    console.error('ERROR: GROQ_API_KEY environment variable is not set');
-    console.error('Please create a .env file with your Groq API key');
-    process.exit(1);
-}
+// Serve static files from parent directory
+app.use(express.static(path.join(__dirname, '..')));
 
 // API Route: Generate study materials
 app.post('/api/generate', async (req, res) => {
@@ -225,13 +213,19 @@ Requirements:
     }
 });
 
-// Start server (only for local development)
+// Serve index.html for all other routes
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'index.html'));
+});
+
+// Export for serverless-http
+module.exports = app;
+
+// Local development
 if (require.main === module) {
+    const PORT = process.env.PORT || 3001;
     app.listen(PORT, () => {
         console.log(`SchoolStudy AI server running on port ${PORT}`);
         console.log(`Open http://localhost:${PORT} in your browser`);
     });
 }
-
-// Export for Vercel serverless functions
-module.exports = app;
