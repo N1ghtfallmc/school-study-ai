@@ -69,6 +69,14 @@ Vercel will provide a URL like `https://school-study-ai.vercel.app`
 - Try the Student Dashboard with some notes
 - Try the Teacher Dashboard with a topic search
 
+### Troubleshooting Vercel Deployment
+If you get "Cannot GET /" error:
+1. Go to Vercel project settings
+2. In "Build & Development Settings", ensure "Framework Preset" is set to "Other"
+3. Make sure environment variable `GROQ_API_KEY` is set
+4. Redeploy the project
+5. If issues persist, try deleting the project and redeploying from scratch
+
 ## Environment Variables
 
 - `GROQ_API_KEY`: Your Groq API key (required)
